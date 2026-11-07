@@ -27,7 +27,7 @@ path = "_output/02_svix_and_crash_probability_ipynb.ipynb"
 [notebooks.03_daily_monitor_ipynb]
 name = "The Daily Monitor"
 description = "How the replication runs itself every morning: a GitHub Actions schedule pulls the previous session from Databento, appends its row to the history kept on the monitor-history branch, rebuilds the monitor's page, and publishes it; and the SVIX and crash-probability history so far."
-path = "_output/03_daily_monitor_ipynb.ipynb
+path = "_output/03_daily_monitor_ipynb.ipynb"
 
 
 [notebooks.04_single_name_crash_bounds_ipynb]

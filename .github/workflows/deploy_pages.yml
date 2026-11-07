@@ -178,7 +178,7 @@ jobs:
         run: |
           # Orphan branch = no parent commits, so gh-pages always contains
           # exactly ONE commit no matter how many times this workflow runs.
-          git checkout --orphan --orphan gh-pages
+          git checkout --orphan gh-pages
           git rm -rf --quiet .
           # git rm only removes *tracked* files; also purge untracked and
           # gitignored build leftovers (_data/, _output/, docs/, .venv/) so
