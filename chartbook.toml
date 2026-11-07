@@ -22,10 +22,12 @@ name = "Replicating SVIX and the Probability of a Crash"
 description = "From settlement prices to the simple variance swap rate, the risk-neutral distribution by Breeden-Litzenberger, and the probability of a 20% drop; checked against the Cboe VIX, with the SVIX integral checked against Martin's published series in guide 04."
 path = "_output/02_svix_and_crash_probability_ipynb.ipynb"
 
-
-# TODO: Register the monitor notebook, `03_daily_monitor_ipynb`, following
 # the two entries above: a name, a description, and the path of the executed
 # notebook that `doit` leaves in `_output/`.
+[notebooks.03_daily_monitor_ipynb]
+name = "The Daily Monitor"
+description = "How the replication runs itself every morning: a GitHub Actions schedule pulls the previous session from Databento, appends its row to the history kept on the monitor-history branch, rebuilds the monitor's page, and publishes it; and the SVIX and crash-probability history so far."
+path = "_output/03_daily_monitor_ipynb.ipynb
 
 
 [notebooks.04_single_name_crash_bounds_ipynb]
@@ -53,13 +55,29 @@ window in the settings again when it changes; `doit latest` pulls the most
 recent session."""
 
 
-# TODO: Register the monitor's history as `[dataframes.svix_monitor_history]`,
 # following the entry above. It is the CSV in `_output/` that
 # `src/monitor.py` writes, and that the deploy workflow keeps on the
 # `monitor-history` branch. Document it: a name, a description, the path,
 # which column holds the date (`date_col`), how it is produced, and what a
 # reader needs to know (`docs`). The chart below refers to this entry by
 # name, so the site does not build until it exists.
+[dataframes.svix_monitor_history]
+name = "SVIX and Crash Probability Monitor History"
+description = "One row per session: the 30-day SVIX, the Cboe VIX, and the risk-neutral, log-utility, and power-utility probabilities of a 10% and a 20% drop in the S&P 500 within a month"
+path = "_output/svix_monitor_history.csv"
+date_col = "date"
+tags = ["Options", "Volatility", "Monitor"]
+pull_method = "Computed by src/monitor.py from the Databento settlements and FRED; appended daily by `doit latest`"
+docs = """One row per session, oldest first. SVIX is interpolated to a constant
+30-day horizon between the two end-of-month expirations that bracket it
+(near_expiry, far_expiry); svix2_* are annualized variances and svix_30 is in
+VIX units (annualized percent). The crash probabilities (p_star_*, p_log_*,
+p_power_20) are read from the expiration closest to one month (days_used).
+rate is the one-month Treasury yield (DGS1MO) as a decimal; vix is the Cboe
+close from FRED, blank when FRED has not posted it yet. The file is an
+output in `_output/`; the deploy workflow keeps a copy on the
+`monitor-history` branch between runs, so do not rebuild it by hand."""
+
 
 
 [charts]
